@@ -1,0 +1,127 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 10px;
+}
+
+/* 页眉 */
+nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+  margin-right: 20px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+nav a:hover {
+  border-bottom: 2px solid white;
+}
+
+.page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 入库管理 */
+.input-row {
+  margin-bottom: 10px;
+}
+
+/* 日期字段的宽度 */
+.date-field {
+  width: 200px;  /* 或者您可以使用 max-width 属性来设置一个最大宽度 */
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 15px; 
+}
+
+.input-item, .input-group, .input-xulie {
+  display: inline-block;
+  width: 200px;
+  margin-right: 10px;
+  font-size: 15px; 
+}
+
+.input-field, .readonly-field, .select-field {
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+  font-size: 15px; 
+}
+
+.readonly-field {
+  background-color: #f0f0f0;
+}
+
+.action-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.action-button:hover {
+  background-color: #45a049;
+}
+
+.result-display {
+  margin-top: 10px;
+}
+
+/* 入库管理表格样式 */
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 18px; 
+    max-width: 90%;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #000; /* Added border style */
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #000; /* Adjusted border style */
+    padding: 10px 10px;
+    text-align: left;
+	min-width: 40px;
+	max-width: 250px;
+	word-wrap: break-word;
+}
+
+/* 表头样式 */
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+/* 斑马线效果 */
+.styled-table tbody tr {
+    border-bottom: thin solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+/* 鼠标悬停效果 */
+.styled-table tbody tr:hover {
+    background-color: #e0f7fa;
+}

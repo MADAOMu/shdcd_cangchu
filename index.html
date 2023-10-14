@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- 字符编码声明 -->
+  <meta charset="UTF-8">
+  <!-- 视口设置，用于响应式设计 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- 网页标题 -->
+  <title>仓库管理系统</title>
+  <!-- 样式表链接 -->
+  <link rel="stylesheet" href="css/styles.css">
+  <!-- 外部脚本库链接 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <!-- 顶部导航区 -->
+  <header>
+    <nav>
+      <ul>
+        <!-- 导航链接，点击时触发相应功能 -->
+        <li><a href="#" onclick="showPage('入库管理')">入库管理</a></li>
+        <li><a href="#" onclick="showPage('维修管理')">维修管理</a></li>
+        <li><a href="#" onclick="showPage('出库管理')">出库管理</a></li>
+        <li><a href="#" onclick="showPage('报废管理')">报废管理</a></li>
+        <li><a href="#" onclick="showPage('总库管理')">总库管理</a></li>
+        <li><a href="#" onclick="showPage('物料管理')">物料管理</a></li>
+      </ul>
+    </nav>
+  </header>
+
+ <!-- 主内容区 -->
+  <main>
+    <!-- 入库管理区域 -->
+    <div id="入库管理" class="page">
+      <h2>入库管理页面</h2>
+      <!-- 入库日期输入区 -->
+      <div class="input-row">
+        <label for="currentDate">入库日期:</label>
+        <input type="date" id="currentDate" class="date-field" onchange="updateCurrentDate()" required>
+      </div>
+      <!-- 规格型号、部件名称、适用车型输入区 -->
+      <div class="input-row">
+        <div class="input-item">
+          <label for="规格型号">规格型号:</label>
+          <input type="text" id="规格型号" placeholder="输入规格型号" class="input-field" oninput="handleguigexinghao()">
+        </div>
+        <div class="input-item">
+          <label for="部件名称">部件名称:</label>
+          <input type="text" id="部件名称" class="readonly-field" readonly>
+        </div>
+        <div class="input-item">
+          <label for="适用车型">适用车型:</label>
+          <input type="text" id="适用车型" class="readonly-field" readonly>
+        </div>
+      </div>
+      <!-- 入库人员、来源地选择区 -->
+      <div class="input-row">
+        <div class="input-item">
+          <label for="入库人员">入库人员:</label>
+          <select id="入库人员" class="select-field">
+            <option>徐平</option>
+			<option>池涛</option>
+			<option>陈奇</option>
+			<option>李昂</option>
+			<option>王博文</option>
+			<option>穆敏晰</option>
+			<option>康宁</option>
+			<option>唐银声</option>
+			<option>符洁文</option>
+             <!-- ...其他选项 -->
+          </select>
+        </div>
+        <div class="input-item">
+          <label for="来源地">来源地:</label>
+          <select id="来源地" class="select-field">
+            <option value="0HQ">虹桥</option>
+            <option value="0NX">南翔</option>
+            <option value="0SN">上南</option>
+			<option value="0HZ">杭州</option>
+			<option value="0HZX">杭州西</option>
+			<option value="0TS">调试</option>
+            <option value="1NJN">南京南</option>
+			<option value="1HFN">合肥南</option>
+            <option value="1XZD">徐州东</option>
+            <!-- 添加其他选项... -->
+          </select>
+        </div>
+      </div>
+  
+       <!-- 部件序列号输入区 -->
+      <div class="input-row">
+        <div class="input-item">
+          <label for="部件序列号">部件序列号:</label>
+          <input type="text" id="序列号1" class="input-field" placeholder="输入序列号1">
+		  <input type="text" id="序列号2" class="input-field" placeholder="输入序列号2">
+		  <input type="text" id="序列号3" class="input-field" placeholder="输入序列号3">
+		  <input type="text" id="序列号4" class="input-field" placeholder="输入序列号4">
+		  <input type="text" id="序列号5" class="input-field" placeholder="输入序列号5">
+        </div>
+      </div>
+  
+      <button onclick="generateneikongma()" class="action-button" aria-label="生成内控码">生成内控码</button>
+      <button id="exportButton" class="action-button" aria-label="导出为Excel">导出入库数据库</button>
+      <div id="neikongmaDisplay" class="result-display"></div>
+	  <div id="existingSerialNumbersDisplay"></div>
+	  
+	  <!-- 显示生成的信息 -->
+	  <div id="infoDisplay"></div>
+	  
+    </div>
+
+  <div id="维修管理" class="page">
+    <h2>维修管理页面</h2>
+	<div id="output"></div>
+      <div class="input-row">
+        <div class="input-item">
+          <label for="序列号">序列号:</label>
+          <input type="text" id="weixiuxuliehao" placeholder="输入序列号" class="input-field" oninput="updateweixiuTable()">
+        </div>
+		<div class="input-item">
+		  <label for="规格型号">规格型号:</label>
+		  <input type="text" id="weixiuguige" placeholder="输入规格型号" class="input-field" oninput="updateweixiuTable()">
+		</div>
+		<div class="input-item">
+		  <label for="来源地">来源地:</label>
+		  <select id="weixiulaiyuandi" class="select-field" oninput="updateweixiuTable()">
+						<option></option>
+						<option>虹桥</option>
+						<option>南翔</option>
+						<option>上南</option>
+						<option>杭州</option>
+						<option>杭州西</option>
+						<option>调试</option>
+						<option>南京南</option>
+						<option>合肥南</option>
+						<option>徐州东</option>
+		    <!-- 添加选项 -->
+		  </select>
+		</div>
+      </div>
+	<div id="weixiuTableDisplay"></div>
+	
+	<div class="input-row">
+	  <label for="repairDate">维修日期:</label>
+	  <input type="date" id="weixiuDate" class="date-field" required>
+	</div>
+	
+	<div class="input-row">
+	  <div class="input-item">
+	    <label for="维修人员">维修人员:</label>
+	    <select id="weixiuPerson" class="select-field">
+			<option>徐平</option>
+			<option>池涛</option>
+			<option>陈奇</option>
+			<option>李昂</option>
+			<option>王博文</option>
+			<option>穆敏晰</option>
+			<option>康宁</option>
+			<option>唐银声</option>
+			<option>符洁文</option>
+	      <!-- 添加选项 -->
+	    </select>
+	  </div>
+	  
+	  <div class="input-item">
+	    <label for="维修结果">维修结果:</label>
+	    <select id="weixiujieguo" class="select-field" onchange="handleRepairResultChange()">
+	      <option>合格</option>
+	      <option>报废</option>
+	      <!-- 添加其他选项... -->
+	    </select>
+	  </div>
+	</div>
+	
+	<div class="input-row">
+	  <div class="input-group">
+	    <label for="软件信息">软件信息:</label>
+	    <input type="text" id="ruanjianxinxi" class="input-field" required>
+	  </div>
+	  
+	  <div class="input-group">
+	    <label for="硬件信息">硬件信息:</label>
+	    <input type="text" id="yinjianxinxi" class="input-field" required>
+	  </div>
+	</div>
+	
+	<div class="input-row">
+	  <div class="input-group">
+	    <label for="故障现象">故障现象:</label>
+	    <input type="text" id="guzhangxianxiang" class="input-field" required>
+	  </div>
+	  
+	  <div class="input-group">
+	    <label for="故障原因">故障原因:</label>
+	    <input type="text" id="guzhangyuanyin" class="input-field" required>
+	  </div>
+	  
+	  <div class="input-group">
+	    <label for="故障处理">故障处理:</label>
+	    <input type="text" id="guzhangchuli" class="input-field" required>
+	  </div>
+	</div>
+	
+	<div class="input-row">
+	  <div class="input-group">
+	    <label for="实际物资支出">实际物资支出:</label>
+	    <input type="text" id="shijiwuzi" class="input-field" required>
+	  </div>
+	  
+	  <div class="input-group">
+	    <label for="实际支出">实际支出:</label>
+	    <input type="text" id="shijizhichu" class="input-field" required>
+	  </div>
+	
+	  <div class="input-group">
+	    <label for="正常物资支出">正常物资支出:</label>
+	    <input type="text" id="zhenchangwuzi" class="input-field" required>
+	  </div>
+	  
+	  <div class="input-group">
+	    <label for="正常支出">正常支出:</label>
+	    <input type="text" id="zhenchangzhichu" class="input-field" required>
+	  </div>
+	</div>
+	
+	<div class="input-row">
+	  <div class="input-group">
+	    <label for="维修工时">维修工时:</label>
+	    <input type="text" id="weixiugongshi" class="input-field" required>
+	  </div>
+	</div>
+	<button id="confirmWeixiuButton" class="action-button">确认维修</button>
+  </div>
+
+  <div id="出库管理" class="page">
+    <h2>出库管理页面</h2>
+	<div class="input-row">
+	  <div class="input-item">
+	    <label for="序列号">序列号:</label>
+	    <input type="text" id="chukuxuliehao" placeholder="输入序列号" class="input-field" oninput="updatechukuTable()">
+	  </div>
+	<div class="input-item">
+		<label for="规格型号">规格型号:</label>
+		<input type="text" id="chukuguige" placeholder="输入规格型号" class="input-field" oninput="updatechukuTable()">
+	</div>
+	<div class="input-item">
+	  <label for="来源地">来源地:</label>
+	  <select type="text" id="chukulaiyuandi" class="select-field" oninput="updatechukuTable()">
+					<option></option>
+					<option>虹桥</option>
+					<option>南翔</option>
+					<option>上南</option>
+					<option>杭州</option>
+					<option>杭州西</option>
+					<option>调试</option>
+					<option>南京南</option>
+					<option>合肥南</option>
+					<option>徐州东</option>
+	    <!-- 添加选项 -->
+	  </select>
+	</div>
+	</div>
+	<div id="chukuTableDisplay"></div>
+	<div class="input-row">
+	  <label for="chukuDate">维修日期:</label>
+	  <input type="date" id="chukuDate" class="date-field" required>
+	</div>
+	
+	<div class="input-row">
+	  <div class="input-item">
+	    <label for="出库人员">出库人员:</label>
+	    <select id="chukuPerson" class="select-field">
+			<option>徐平</option>
+			<option>池涛</option>
+			<option>陈奇</option>
+			<option>李昂</option>
+			<option>王博文</option>
+			<option>穆敏晰</option>
+			<option>康宁</option>
+			<option>唐银声</option>
+			<option>符洁文</option>
+	      <!-- 添加选项 -->
+	    </select>
+	  </div>
+	<div class="input-item">
+	  <label for="出库地">出库地:</label>
+	  <select type="text" id="chukudi" class="select-field">
+					<option></option>
+					<option>虹桥</option>
+					<option>南翔</option>
+					<option>上南</option>
+					<option>杭州</option>
+					<option>杭州西</option>
+					<option>调试</option>
+					<option>南京南</option>
+					<option>合肥南</option>
+					<option>徐州东</option>
+	    <!-- 添加选项 -->
+	  </select>
+	</div>
+	</div>
+	
+	<button id="confirmChukuButton" class="action-button" onclick="testClick()">确认出库</button>
+
+  </div>
+
+  <div id="报废管理" class="page">
+      <h2>报废管理页面</h2>
+	  <div class="input-row">
+	    <div class="input-item">
+	      <label for="序列号">序列号:</label>
+	      <input type="text" id="baofeixuliehao" placeholder="输入序列号" class="input-field" oninput="updatebaofeiTable()">
+	    </div>
+	  	<div class="input-item">
+	  		<label for="规格型号">规格型号:</label>
+	  		<input type="text" id="baofeiguige" placeholder="输入规格型号" class="input-field" oninput="updatebaofeiTable()">
+	  	</div>
+		  <div class="input-item">
+		    <label for="来源地">来源地:</label>
+		    <select type="text" id="baofeilaiyuandi" class="select-field" oninput="updatebaofeiTable()">
+				<option></option>
+				<option>虹桥</option>
+				<option>南翔</option>
+				<option>上南</option>
+				<option>杭州</option>
+				<option>杭州西</option>
+				<option>调试</option>
+				<option>南京南</option>
+				<option>合肥南</option>
+				<option>徐州东</option>
+		      <!-- 添加选项 -->
+		    </select>
+		  </div>
+	  </div>
+	  <div id="baofeiTableDisplay"></div>
+	  <div class="input-row">
+	    <label for="baofeiDate">报废日期:</label>
+	    <input type="date" id="baofeiDate" class="date-field" required>
+	  </div>
+	  
+	  <div class="input-row">
+	    <div class="input-item">
+	      <label for="报废人员">报废人员:</label>
+	      <select id="baofeiPerson" class="select-field">
+	  		<option>徐平</option>
+	  		<option>池涛</option>
+	  		<option>陈奇</option>
+	  		<option>李昂</option>
+	  		<option>王博文</option>
+	  		<option>穆敏晰</option>
+	  		<option>康宁</option>
+	  		<option>唐银声</option>
+	  		<option>符洁文</option>
+	        <!-- 添加选项 -->
+	      </select>
+	    </div>
+		<div class="input-item">
+		  <label for="报废地">报废地:</label>
+		  <select type="text" id="baofeidi" class="select-field">
+						<option></option>
+						<option>虹桥</option>
+						<option>南翔</option>
+						<option>上南</option>
+						<option>杭州</option>
+						<option>杭州西</option>
+						<option>调试</option>
+						<option>南京南</option>
+						<option>合肥南</option>
+						<option>徐州东</option>
+		    <!-- 添加选项 -->
+		  </select>
+		</div>
+	  </div>
+	  
+	  <button id="confirmBaofeiButton" class="action-button">确认报废</button>
+  </div>
+
+  <div id="总库管理" class="page">
+    <h2>总库管理页面</h2>
+	<button id="zongkudaochu" class="action-button">导出总数据库</button>
+
+    <div class="input-row">
+      <div class="input-item">
+        <label for="序列号">序列号:</label>
+        <input type="text" id="zongkuxuliehao" placeholder="输入序列号" class="input-field" oninput="updateZongkuTable()">
+      </div>
+    <div class="input-item">
+    	<label for="规格型号">规格型号:</label>
+    	<input type="text" id="zongkuguige" placeholder="输入规格型号" class="input-field" oninput="updateZongkuTable()">
+    </div>
+    <div class="input-item">
+      <label for="来源地">来源地:</label>
+      <select type="text" id="zongkulaiyuandi" class="select-field" oninput="updateZongkuTable()">
+    				<option></option>
+    				<option>虹桥</option>
+    				<option>南翔</option>
+    				<option>上南</option>
+    				<option>杭州</option>
+    				<option>杭州西</option>
+    				<option>调试</option>
+    				<option>南京南</option>
+    				<option>合肥南</option>
+    				<option>徐州东</option>
+        <!-- 添加选项 -->
+      </select>
+    </div>
+	<div class="input-item">
+	  <label for="维修状态">维修状态:</label>
+	  <select type="text" id="zongkuzhuangtai" class="select-field" oninput="updateZongkuTable()">
+					<option></option>
+					<option>入库</option>
+					<option>维修</option>
+					<option>出库</option>
+					<option>报废</option>
+	    <!-- 添加选项 -->
+	  </select>
+	</div>
+    </div>
+	
+    <div id="zongkuTableDisplay"></div>
+	
+  </div>
+
+  <div id="物料管理" class="page">
+    <h2>物料管理页面</h2>
+    <!-- 用于显示保存的数据 -->
+	<div class="input-row">
+	  <div class="input-item">
+	    <label for="规格型号">规格型号:</label>
+	    <input type="text" id="wuliaoGuige" placeholder="输入规格型号" class="input-field" oninput="updateWuliaoTable()">
+	  </div>
+	<div class="input-item">
+		<label for="部件名称">部件名称:</label>
+		<input type="text" id="wuliaoBujian" placeholder="输入部件名称" class="input-field" oninput="updateWuliaoTable()">
+	</div>
+	<div class="input-item">
+	  <label for="适用车型">适用车型:</label>
+	  <select type="text" id="wuliaoChexing" class="select-field" oninput="updateWuliaoTable()">
+					<option></option>
+					<option>CR400BF</option>
+					<option>CRH380B</option>
+					<option>CRH380D</option>
+					<option>CRH2</option>
+	    <!-- 添加选项 -->
+	  </select>
+	</div>
+	</div>
+	<div id="wuliaoTableDisplay"></div>
+
+    <div class="input-row">
+      <div class="input-item">
+        <label for="规格型号">规格型号:</label>
+        <input type="text" id="newGuige" placeholder="输入规格型号" class="input-field">
+      </div>
+    <div class="input-item">
+    	<label for="部件名称">部件名称:</label>
+    	<input type="text" id="newBujian" placeholder="输入部件名称" class="input-field">
+    </div>
+    <div class="input-item">
+      <label for="适用车型">适用车型:</label>
+      <select type="text" id="newChexing" class="select-field">
+    				<option></option>
+    				<option>CR400BF</option>
+    				<option>CRH380B</option>
+    				<option>CRH380D</option>
+    				<option>CRH2</option>
+        <!-- 添加选项 -->
+      </select>
+    </div>
+    </div>
+    <button id="uploadDataButton" class="action-button">添加物料</button>
+	</div>
+</main>
+
+  <!-- JavaScript 脚本文件链接 -->
+  <script src="js/script.js"></script>
+  <script src="js/ruku.js"></script>
+  <script src="js/weixiu.js"></script>
+  <script src="js/wuliao.js"></script>
+  <script src="js/chuku.js"></script>
+  <script src="js/baofei.js"></script>
+  <script src="js/zongku.js"></script>
+
+</body>
+
+</html>
