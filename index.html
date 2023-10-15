@@ -39,29 +39,29 @@
       <h2>入库管理页面</h2>
       <!-- 入库日期输入区 -->
       <div class="input-row">
-        <label for="currentDate">入库日期:</label>
-        <input type="date" id="currentDate" class="date-field" onchange="updateCurrentDate()" required>
+        <label for="入库日期">入库日期:</label>
+        <input type="date" id="rukuDate" class="date-field" required>
       </div>
       <!-- 规格型号、部件名称、适用车型输入区 -->
       <div class="input-row">
         <div class="input-item">
           <label for="规格型号">规格型号:</label>
-          <input type="text" id="规格型号" placeholder="输入规格型号" class="input-field" oninput="handleguigexinghao()">
+          <input type="text" id="rukuguige" placeholder="输入规格型号" class="input-field" oninput="updaterukuguige()">
         </div>
         <div class="input-item">
           <label for="部件名称">部件名称:</label>
-          <input type="text" id="部件名称" class="readonly-field" readonly>
+          <input type="text" id="rukubujian" class="readonly-field" readonly>
         </div>
         <div class="input-item">
           <label for="适用车型">适用车型:</label>
-          <input type="text" id="适用车型" class="readonly-field" readonly>
+          <input type="text" id="rukuchexing" class="readonly-field" readonly>
         </div>
       </div>
       <!-- 入库人员、来源地选择区 -->
       <div class="input-row">
         <div class="input-item">
           <label for="入库人员">入库人员:</label>
-          <select id="入库人员" class="select-field">
+          <select id="rukurenyuan" class="select-field">
             <option>徐平</option>
 			<option>池涛</option>
 			<option>陈奇</option>
@@ -76,7 +76,7 @@
         </div>
         <div class="input-item">
           <label for="来源地">来源地:</label>
-          <select id="来源地" class="select-field">
+          <select id="rukulaiyuandi" class="select-field">
             <option value="0HQ">虹桥</option>
             <option value="0NX">南翔</option>
             <option value="0SN">上南</option>
@@ -95,21 +95,18 @@
       <div class="input-row">
         <div class="input-item">
           <label for="部件序列号">部件序列号:</label>
-          <input type="text" id="序列号1" class="input-field" placeholder="输入序列号1">
-		  <input type="text" id="序列号2" class="input-field" placeholder="输入序列号2">
-		  <input type="text" id="序列号3" class="input-field" placeholder="输入序列号3">
-		  <input type="text" id="序列号4" class="input-field" placeholder="输入序列号4">
-		  <input type="text" id="序列号5" class="input-field" placeholder="输入序列号5">
+          <input type="text" id="rukuxuliehao1" class="input-field" placeholder="输入序列号1">
+		  <input type="text" id="rukuxuliehao2" class="input-field" placeholder="输入序列号2">
+		  <input type="text" id="rukuxuliehao3" class="input-field" placeholder="输入序列号3">
+		  <input type="text" id="rukuxuliehao4" class="input-field" placeholder="输入序列号4">
+		  <input type="text" id="rukuxuliehao5" class="input-field" placeholder="输入序列号5">
         </div>
       </div>
   
-      <button onclick="generateneikongma()" class="action-button" aria-label="生成内控码">生成内控码</button>
-      <button id="exportButton" class="action-button" aria-label="导出为Excel">导出入库数据库</button>
-      <div id="neikongmaDisplay" class="result-display"></div>
-	  <div id="existingSerialNumbersDisplay"></div>
-	  
-	  <!-- 显示生成的信息 -->
-	  <div id="infoDisplay"></div>
+      <button id="rukuneikongma" class="action-button" aria-label="生成内控码">生成内控码</button>
+      <div id="rukuneikongmaDisplay" class="result-display"></div>
+	  <div id="rukuxuliehaochongfu" class="result-display"></div>
+	  <div id="rukuTableDisplay" class="result-display"></div>
 	  
     </div>
 
