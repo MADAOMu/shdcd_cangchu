@@ -99,6 +99,16 @@ async function uploadrukuDatabase(dataArray) {
     }
 }
 
+//清空序列号输入框
+function clearrukuInputFields() {
+    document.getElementById('rukulaiyuandi').value = '';
+    document.getElementById('rukuxuliehao1').value = '';
+    document.getElementById('rukuxuliehao2').value = '';
+    document.getElementById('rukuxuliehao3').value = '';
+    document.getElementById('rukuxuliehao4').value = '';
+    document.getElementById('rukuxuliehao5').value = '';
+}
+
 // 生成内控码并上传数据
 async function shenchengneikongma() {
     console.log('shenchengneikongma called');  // 记录函数调用
@@ -194,7 +204,10 @@ async function shenchengneikongma() {
     });
 
     // 调用函数上传数据
-    uploadrukuDatabase(rukudataArray);
+    await uploadrukuDatabase(rukudataArray);
+    
+    // 清空输入框
+    clearrukuInputFields();
 }
 
 // 检查数据库中是否存在相同的序列号
