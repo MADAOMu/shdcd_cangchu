@@ -93,6 +93,8 @@ function fetchAndDisplayZongkuData() {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+	document.getElementById('zongrukuyue').addEventListener('input', updateZongkuTable);
+	document.getElementById('zongchukuyue').addEventListener('input', updateZongkuTable);
     document.getElementById('zongkuxuliehao').addEventListener('input', updateZongkuTable);
     document.getElementById('zongkuguige').addEventListener('input', updateZongkuTable);
     document.getElementById('zongkulaiyuandi').addEventListener('input', updateZongkuTable);
@@ -109,18 +111,35 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function updateZongkuTable() {
     // 获取输入框的值
+	const zongrukuyueValue = document.getElementById('zongrukuyue').value;
+	const zongchukuyueValue = document.getElementById('zongchukuyue').value;
     const zongkuxuliehaoValue = document.getElementById('zongkuxuliehao').value;
     const zongkuguigeValue = document.getElementById('zongkuguige').value;
     const zongkulaiyuandiValue = document.getElementById('zongkulaiyuandi').value;
     const zongkuzhuangtaiValue = document.getElementById('zongkuzhuangtai').value;
 
     // 过滤数据
-    const zongkuTableData = window.zongkuData.filter(item =>
+const zongkuTableData = window.zongkuData.filter(item => {
+    if (
         (!zongkuxuliehaoValue || item.序列号.includes(zongkuxuliehaoValue)) &&
         (!zongkuguigeValue || item.规格型号.includes(zongkuguigeValue)) &&
         (!zongkulaiyuandiValue || item.来源地.includes(zongkulaiyuandiValue)) &&
         (!zongkuzhuangtaiValue || item.维修状态.includes(zongkuzhuangtaiValue))
-    );
+    ) {
+        if (!zongrukuyueValue && !zongchukuyueValue) {
+            return true; // 如果未选择年份和月份，则不进行年份和月份的筛选，直接返回 true
+        }
+
+		const selectedzongrukuyue = zongrukuyueValue;
+		const selectedzongchukuyue = zongchukuyueValue;
+
+        return (
+                        (zongrukuyueValue && item.入库日期.startsWith(selectedzongrukuyue)) ||
+                        (zongchukuyueValue && item.出库日期.startsWith(selectedzongchukuyue))
+                    );
+    }
+    return false;
+});
 
     // 更新表格显示
     displayZongkuData(zongkuTableData);

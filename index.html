@@ -381,6 +381,27 @@
 	<button id="zongkudaochu" class="action-button">导出总数据库</button>
 
     <div class="input-row">
+	  <div class="input-item">
+	    <label for="维修状态">维修状态:</label>
+	    <select type="text" id="zongkuzhuangtai" class="select-field" oninput="updateZongkuTable()">
+	  				<option></option>
+	  				<option>入库</option>
+	  				<option>维修</option>
+	  				<option>出库</option>
+	  				<option>报废</option>
+	      <!-- 添加选项 -->
+	    </select>
+	  </div>
+	  <div class="input-item">
+	    <label for="入库日期">入库日期:</label>
+	    <input type="month" id="zongrukuyue" class="input-field" oninput="updateZongkuTable()">
+	  </div>
+	  <div class="input-item">
+	    <label for="出库日期">出库日期:</label>
+	    <input type="month" id="zongchukuyue" class="input-field" oninput="updateZongkuTable()">
+	  </div>
+	  </div>
+	  <div class="input-row">
       <div class="input-item">
         <label for="序列号">序列号:</label>
         <input type="text" id="zongkuxuliehao" placeholder="输入序列号" class="input-field" oninput="updateZongkuTable()">
@@ -405,17 +426,7 @@
         <!-- 添加选项 -->
       </select>
     </div>
-	<div class="input-item">
-	  <label for="维修状态">维修状态:</label>
-	  <select type="text" id="zongkuzhuangtai" class="select-field" oninput="updateZongkuTable()">
-					<option></option>
-					<option>入库</option>
-					<option>维修</option>
-					<option>出库</option>
-					<option>报废</option>
-	    <!-- 添加选项 -->
-	  </select>
-	</div>
+	
     </div>
 	
     <div id="zongkuTableDisplay"></div>
